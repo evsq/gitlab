@@ -1,0 +1,7 @@
+# list variables of specific project
+curl --header "PRIVATE-TOKEN: <your_access_token>" \
+     "https://gitlab.example.com/api/v4/projects/1/variables"
+
+# create variable
+curl --request POST --header "PRIVATE-TOKEN: <your_access_token>" \
+     "https://gitlab.example.com/api/v4/projects/1/variables" --form "key=NEW_VARIABLE" --form "value=new value" --form "protected=false" --form "environment_scope=*" --form "masked=true"
