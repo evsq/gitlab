@@ -1,0 +1,25 @@
+release_merge_request:
+ stage: release
+ script:
+   - 'curl --request POST
+           --form title="Release [`cat ./ci/app_name.txt`]"
+           --form id=`echo ${CI_PROJECT_ID}`
+           --form ref=`echo $CI_COMMIT_BRANCH`
+           --form source_branch=`echo $CI_COMMIT_BRANCH`
+           --form target_branch=master
+           --form remove_source_branch=true
+           --form assignee_id=1809
+           --form private_token=token
+         "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests"'
+   - 'curl --request POST
+           --form title="Release [`cat ./ci/app_name.txt`]"
+           --form id=`echo ${CI_PROJECT_ID}`
+           --form ref=`echo $CI_COMMIT_BRANCH`
+           --form source_branch=`echo $CI_COMMIT_BRANCH`
+           --form target_branch=dev
+           --form remove_source_branch=true
+           --form assignee_id=1809
+           --form private_token=token
+         "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests"'
+ rules:
+   - if: '$CI_COMMIT_BRANCH =~ /^release.*/ && $CI_PIPELINE_SOURCE == "push"'
