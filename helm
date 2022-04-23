@@ -1,0 +1,8 @@
+.deploy:
+  stage: deploy
+  script:
+    - set -ex
+    - mkdir ~/.kube
+    - echo "${K8S_CONFIG}" | base64 -d > ~/.kube/config
+    - envsubst < helm/values.tpl > helm/values.yaml
+    - helm upgrade --install --debug --atomic test helm --namespace ${NAMESPACE} --history-max=3 -f helm/values.yaml
